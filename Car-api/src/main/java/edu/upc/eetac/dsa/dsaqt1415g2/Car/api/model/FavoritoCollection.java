@@ -11,33 +11,31 @@ import org.glassfish.jersey.linking.InjectLinks;
 import org.glassfish.jersey.linking.InjectLink.Style;
 
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.MediaType;
-import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.OpinionResource;
 
-public class OpinionCollection {
-	
+public class FavoritoCollection {
 	@InjectLinks
 	({
-	   @InjectLink(value ="/opinion?username={username}",style = Style.ABSOLUTE, rel = "one user's opinion", title = "Get-opinion by username", type = MediaType.CAR_API_OPINION_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
+	   @InjectLink(value ="/favorito?username={username}",style = Style.ABSOLUTE, rel = "one user's favorite", title = "Get-favorito by username", type = MediaType.CAR_API_FAVORITO_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
 	})
 	private List<Link> links;
-	private List<Opinion> opiniones;
+	private List<Favorito> favoritos;
 	private String username;
 
-	public OpinionCollection() {
+	public FavoritoCollection() {
 		super();
-		opiniones = new ArrayList<>();
+		favoritos = new ArrayList<>();
 	}
 
-	public List<Opinion> getOpiniones() {
-		return opiniones;
+	public List<Favorito> getFavoritos() {
+		return favoritos;
 	}
 
-	public void setOpiniones(List<Opinion> opiniones) {
-		this.opiniones = opiniones;
+	public void setFavoritos(List<Favorito> favoritos) {
+		this.favoritos = favoritos;
 	}
 
-	public void addOpiniones(Opinion opinion) {
-		opiniones.add(opinion);
+	public void addFavoritos(Favorito favorito) {
+		favoritos.add(favorito);
 	}
 
 	public List<Link> getLinks() {

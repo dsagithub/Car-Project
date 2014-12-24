@@ -1,8 +1,10 @@
 package edu.upc.eetac.dsa.dsaqt1415g2.Car.api;
 import java.sql.*;
+
 import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 
@@ -11,9 +13,9 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 public class PosicionResource 
 {
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
-	
-private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenadaX,coordenadaY,descripcion) values(?,?,?,?)";
-	
+	//
+	//CREAR UNA POSICION NUEVA
+	private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenadaX,coordenadaY,descripcion) values(?,?,?,?)";
 	@POST
 	@Consumes(MediaType.CAR_API_POSICION)
 	@Produces(MediaType.CAR_API_POSICION)
@@ -66,31 +68,10 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 				
 			}
 		}
-		
-		
 		return posicion;
-
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//
+	//GET POSICION POR ID 
 	private String GET_POSICION_BY_ID="select * from posiciones where idposicion=?";
 	@GET
 	@Path("/{idposicion}")
@@ -142,18 +123,13 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 		}
 		
 		return posicion;
-			
-			
-		
 	}
-	
-	
 	// GET TODAS LAS POSICIONES DE UN USUARIO POR SU USERNAME
-		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username='yifei' order by idposicion desc";
-
+		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc";
+		@Path("/usuario/{username}")
 		@GET
 		@Produces(MediaType.CAR_API_POSICION_COLLECTION)
-		public PosicionCollection getPosiciones() 
+		public PosicionCollection getPosiciones(@PathParam("username") String username) 
 		{
 			PosicionCollection posiciones = new PosicionCollection();
 
@@ -167,6 +143,7 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 			PreparedStatement stmt = null;
 			try {
 				stmt = conn.prepareStatement(GET_POSICIONES_USERNAME_QUERY);
+				stmt.setString(1, String.valueOf(username));
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) 
 				{
@@ -192,11 +169,6 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 
 			return posiciones;
 		}
-	
-		
-		
-		
-		
 		private String GET_LAST_POSICION_QUERY="select * from posiciones where username=? order by idposicion desc limit 1";
 		
 		@GET
@@ -356,20 +328,4 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 			
 			return posicion;
 			}
-		
-		
-		
-		
-		
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
