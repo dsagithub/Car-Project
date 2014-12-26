@@ -22,7 +22,6 @@ public class Posicion
 	
 
 	private List<Link> links;
-
 	private int idposicion;
 	private String username;
 	private double coordenadaX;
