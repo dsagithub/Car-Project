@@ -149,11 +149,11 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 	
 	
 	// GET TODAS LAS POSICIONES DE UN USUARIO POR SU USERNAME
-		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username='yifei' order by idposicion desc";
+		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc";
 
 		@GET
 		@Produces(MediaType.CAR_API_POSICION_COLLECTION)
-		public PosicionCollection getPosiciones() 
+		public PosicionCollection getPosiciones(@QueryParam("username") String username) 
 		{
 			PosicionCollection posiciones = new PosicionCollection();
 
@@ -167,18 +167,21 @@ private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenad
 			PreparedStatement stmt = null;
 			try {
 				stmt = conn.prepareStatement(GET_POSICIONES_USERNAME_QUERY);
+				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
+				String username1=null;
 				while (rs.next()) 
 				{
 					Posicion posicion = new Posicion();
 					posicion.setIdposicion(rs.getInt("idposicion"));
-					posicion.setUsername(rs.getString("username"));
+					username1=rs.getString("username");
 					posicion.setCoordenadaX(rs.getDouble("coordenadaX"));
 					posicion.setCoordenadaY(rs.getDouble("coordenadaY"));
 					posicion.setDescripcion(rs.getString("descripcion"));
 					posicion.setFecha(rs.getTimestamp("fecha").getTime());
 					posiciones.addPosicion(posicion);
 				}
+				posiciones.setUsername(username1);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
