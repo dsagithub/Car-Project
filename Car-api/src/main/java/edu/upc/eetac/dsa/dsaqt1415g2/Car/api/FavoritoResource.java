@@ -27,8 +27,8 @@ public class FavoritoResource {
 	@GET
 	@Path("/usuario/{username}")
 	@Produces(MediaType.CAR_API_FAVORITO_COLLECTION)
-	public FavoritoCollection getFavoritos(
-			@PathParam("username") String username) {
+	public FavoritoCollection getFavoritos(@PathParam("username") String username) 
+	{
 		FavoritoCollection favoritos = new FavoritoCollection();
 
 		Connection conn = null;
