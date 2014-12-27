@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ import javax.ws.rs.QueryParam;
 
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Favorito;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.FavoritoCollection;
+import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 
 @Path("/favorito")
 public class FavoritoResource 
@@ -187,7 +189,7 @@ public class FavoritoResource
 	private String DELETE_FAVORITOS_QUERY="delete from favoritos where idfavorito=?";
 	@DELETE
 	@Path("/{idfavorito}")
-	public void deletePosicion(@PathParam("idfavorito") String idfavorito)
+	public void deleteFavorito(@PathParam("idfavorito") String idfavorito)
 	{
 		Connection conn=null;
 		try
@@ -229,4 +231,57 @@ public class FavoritoResource
 			}
 		}		
 	}
+	//
+	//UPDATE FAVORITO
+	private String UPDATE_FAVORITO_QUERY="update favoritos set descripcion=ifnull(?,descripcion) where idfavorito=?";
+	@PUT
+	@Path("/{idfavorito}")
+	@Consumes(MediaType.CAR_API_FAVORITO)
+	@Produces(MediaType.CAR_API_FAVORITO)
+	public Favorito updateFavorito(@PathParam("idfavorito") String idfavorito, Favorito favorito)
+	{
+		Connection conn =null;
+		try
+		{
+			conn=ds.getConnection();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		PreparedStatement stmt=null;
+		try
+		{
+			stmt=conn.prepareStatement(UPDATE_FAVORITO_QUERY);
+			
+			stmt.setString(1, favorito.getDescripcion());
+			stmt.setInt(2, Integer.valueOf(idfavorito));
+			int rows=stmt.executeUpdate();
+			if(rows==1)
+				favorito = getFavorito(idfavorito);
+			else
+			{
+				//Updateing inexisting posicion description
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(stmt !=null)
+				stmt.close();
+				conn.close();
+			}
+			catch(SQLException e)
+			{
+				
+			}
+		}
+		
+		return favorito;
+		}
 }
