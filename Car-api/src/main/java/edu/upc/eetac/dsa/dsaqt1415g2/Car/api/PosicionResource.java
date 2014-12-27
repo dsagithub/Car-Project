@@ -9,6 +9,7 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 
 
+
 @Path("/posicion")
 public class PosicionResource 
 {
