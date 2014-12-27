@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -180,5 +181,52 @@ public class FavoritoResource
 			}
 		}
 		return favorito;
+	}
+	//
+	//DELETE FAVORITOS
+	private String DELETE_FAVORITOS_QUERY="delete from favoritos where idfavorito=?";
+	@DELETE
+	@Path("/{idfavorito}")
+	public void deletePosicion(@PathParam("idfavorito") String idfavorito)
+	{
+		Connection conn=null;
+		try
+		{
+			conn=ds.getConnection();
+			
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		PreparedStatement stmt=null;
+		try
+		{
+			stmt=conn.prepareStatement(DELETE_FAVORITOS_QUERY);
+			stmt.setInt(1,Integer.valueOf(idfavorito));
+			int rows = stmt.executeUpdate();
+			if(rows==0)
+			{
+				//deleteting inexisting posicion
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(stmt!=null)
+				stmt.close();
+				conn.close();
+			}
+			catch(SQLException e)
+			{
+				
+			}
+		}		
 	}
 }
