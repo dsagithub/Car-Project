@@ -13,21 +13,22 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Favorito;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.FavoritoCollection;
 
 @Path("/favorito")
-public class FavoritoResource {
+public class FavoritoResource 
+{
 	
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 
 	// GET TODOS LOS FAVORITOS DE UN USUARIO POR SU USERNAME
 	private String GET_FAVORITOS_OF_USERNAME_QUERY = "select * from favoritos where username=? order by idfavorito desc";
 	@GET
-	@Path("/usuario/{username}")
 	@Produces(MediaType.CAR_API_FAVORITO_COLLECTION)
-	public FavoritoCollection getFavoritos(@PathParam("username") String username) 
+	public FavoritoCollection getFavoritos(@QueryParam("username") String username) 
 	{
 		FavoritoCollection favoritos = new FavoritoCollection();
 
@@ -41,10 +42,11 @@ public class FavoritoResource {
 		PreparedStatement stmt = null;
 		try {
 			stmt = conn.prepareStatement(GET_FAVORITOS_OF_USERNAME_QUERY);
-			stmt.setString(1, String.valueOf(username));
+			stmt.setString(1, username);
 
 			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
+			while (rs.next()) 
+			{
 				Favorito favorito = new Favorito();
 				favorito.setIdfavorito(rs.getInt("idfavorito"));
 				favorito.setIdposicion(rs.getInt("idposicion"));
@@ -53,14 +55,22 @@ public class FavoritoResource {
 				favorito.setFecha(rs.getTimestamp("fecha").getTime());
 				favoritos.addFavoritos(favorito);
 			}
-		} catch (SQLException e) {
+			favoritos.setUsername(username);
+		} catch (SQLException e) 
+		{
 			e.printStackTrace();
-		} finally {
-			try {
+		} 
+		finally 
+		{
+			try 
+			{
 				if (stmt != null)
 					stmt.close();
 				conn.close();
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) 
+			{
+				
 			}
 		}
 
@@ -72,7 +82,8 @@ public class FavoritoResource {
 	@POST
 	@Consumes(MediaType.CAR_API_FAVORITO)
 	@Produces(MediaType.CAR_API_FAVORITO)
-	public Favorito createFavorito(Favorito favorito) {
+	public Favorito createFavorito(Favorito favorito) 
+	{
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -95,20 +106,30 @@ public class FavoritoResource {
 			} else {
 
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) 
+		{
 			e.printStackTrace();
-		} finally {
-			try {
+		} 
+		finally 
+		{
+			try 
+			{
 				if (stmt != null)
 					stmt.close();
 				conn.close();
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) 
+			{
 
 			}
 		}
 		return favorito;
 	}
 
+	
+	
+	
+	
 	//GET FAVORITO
 	private String GET_FAVORITO_BY_ID="select * from favoritos where idfavorito=?";
 	@GET

@@ -9,6 +9,7 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 
 
+
 @Path("/posicion")
 public class PosicionResource 
 {
@@ -126,10 +127,9 @@ public class PosicionResource
 	}
 	// GET TODAS LAS POSICIONES DE UN USUARIO POR SU USERNAME
 		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc";
-		@Path("/usuario/{username}")
 		@GET
 		@Produces(MediaType.CAR_API_POSICION_COLLECTION)
-		public PosicionCollection getPosiciones(@PathParam("username") String username) 
+		public PosicionCollection getPosiciones(@QueryParam("username") String username) 
 		{
 			PosicionCollection posiciones = new PosicionCollection();
 
@@ -143,12 +143,14 @@ public class PosicionResource
 			PreparedStatement stmt = null;
 			try {
 				stmt = conn.prepareStatement(GET_POSICIONES_USERNAME_QUERY);
-				stmt.setString(1, String.valueOf(username));
+				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
+				//String username1=null;
 				while (rs.next()) 
 				{
 					Posicion posicion = new Posicion();
 					posicion.setIdposicion(rs.getInt("idposicion"));
+					//username1=rs.getString("username");
 					posicion.setUsername(rs.getString("username"));
 					posicion.setCoordenadaX(rs.getDouble("coordenadaX"));
 					posicion.setCoordenadaY(rs.getDouble("coordenadaY"));
@@ -156,6 +158,7 @@ public class PosicionResource
 					posicion.setFecha(rs.getTimestamp("fecha").getTime());
 					posiciones.addPosicion(posicion);
 				}
+				posiciones.setUsername(username);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {

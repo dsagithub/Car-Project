@@ -15,7 +15,8 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.OpinionResource;
 
 public class Opinion 
 {
-	@InjectLinks({
+	@InjectLinks
+	({
 		@InjectLink(value ="/opinion/{idopinion}", style = Style.ABSOLUTE, rel = "self edit", title = "One Opinion", type = MediaType.CAR_API_OPINION, method = "Get opinion", bindings = @Binding(name = "idopinion", value = "${instance.idopinion}")) 
 	})
 	private List<Link> links;
