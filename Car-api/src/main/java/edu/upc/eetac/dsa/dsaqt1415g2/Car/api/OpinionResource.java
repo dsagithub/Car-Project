@@ -42,18 +42,20 @@ public class OpinionResource
 		try {
 			stmt = conn.prepareStatement(GET_OPINIONES_USERNAME_QUERY);
 			stmt.setString(1, username);
-
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Opinion posicion = new Opinion();
-				posicion.setIdposicion(rs.getInt("idposicion"));
-				posicion.setUsername(rs.getString("username"));
-				posicion.setIdopinion(rs.getInt("idopinion"));
-				posicion.setContent(rs.getString("content"));
-				posicion.setPrecio(rs.getString("precio"));
-				posicion.setFecha(rs.getTimestamp("fecha").getTime());
-				opiniones.addOpiniones(posicion);
+				Opinion opinion = new Opinion();
+				opinion.setIdposicion(rs.getInt("idposicion"));
+				opinion.setUsername(rs.getString("username"));
+				opinion.setIdopinion(rs.getInt("idopinion"));
+				opinion.setContent(rs.getString("content"));
+				opinion.setPrecio(rs.getString("precio"));
+				opinion.setFecha(rs.getTimestamp("fecha").getTime());
+				opiniones.addOpiniones(opinion);
 			}
+			
+			opiniones.setUsername(username);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

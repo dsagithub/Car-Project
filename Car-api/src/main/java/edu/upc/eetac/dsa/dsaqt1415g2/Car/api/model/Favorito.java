@@ -13,7 +13,8 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.MediaType;
 
 public class Favorito {
 	
-	@InjectLinks({
+	@InjectLinks
+	({
 		@InjectLink(value ="/favorito/{idfavorito}", style = Style.ABSOLUTE, rel = "self edit", title = "One Opinion", type = MediaType.CAR_API_FAVORITO, method = "Get favorito", bindings = @Binding(name = "idfavorito", value = "${instance.idfavorito}")) 
 	})
 	private List<Link> links;

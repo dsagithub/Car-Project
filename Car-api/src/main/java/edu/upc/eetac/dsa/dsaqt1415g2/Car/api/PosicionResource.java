@@ -145,19 +145,20 @@ public class PosicionResource
 				stmt = conn.prepareStatement(GET_POSICIONES_USERNAME_QUERY);
 				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
-				String username1=null;
+				//String username1=null;
 				while (rs.next()) 
 				{
 					Posicion posicion = new Posicion();
 					posicion.setIdposicion(rs.getInt("idposicion"));
-					username1=rs.getString("username");
+					//username1=rs.getString("username");
+					posicion.setUsername(rs.getString("username"));
 					posicion.setCoordenadaX(rs.getDouble("coordenadaX"));
 					posicion.setCoordenadaY(rs.getDouble("coordenadaY"));
 					posicion.setDescripcion(rs.getString("descripcion"));
 					posicion.setFecha(rs.getTimestamp("fecha").getTime());
 					posiciones.addPosicion(posicion);
 				}
-				posiciones.setUsername(username1);
+				posiciones.setUsername(username);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {

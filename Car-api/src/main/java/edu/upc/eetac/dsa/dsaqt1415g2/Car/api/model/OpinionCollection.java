@@ -23,7 +23,8 @@ public class OpinionCollection {
 	private List<Opinion> opiniones;
 	private String username;
 
-	public OpinionCollection() {
+	public OpinionCollection() 
+	{
 		super();
 		opiniones = new ArrayList<>();
 	}
