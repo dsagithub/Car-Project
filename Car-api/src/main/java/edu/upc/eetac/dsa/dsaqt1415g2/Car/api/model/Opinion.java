@@ -17,7 +17,7 @@ public class Opinion
 {
 	@InjectLinks
 	({
-		@InjectLink(value ="/opinion/{idopinion}", style = Style.ABSOLUTE, rel = "self edit", title = "One Opinion", type = MediaType.CAR_API_OPINION, method = "Get opinion", bindings = @Binding(name = "idopinion", value = "${instance.idopinion}")) 
+		@InjectLink(value ="/opinion/{idopinion}", style = Style.ABSOLUTE, rel = "self-edit", title = "One Opinion", type = MediaType.CAR_API_OPINION, method = "Get opinion", bindings = @Binding(name = "idopinion", value = "${instance.idopinion}")) 
 	})
 	private List<Link> links;
 	private int idopinion;
