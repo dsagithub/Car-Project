@@ -1,9 +1,12 @@
 package edu.upc.eetac.dsa.dsaqt1415g2.Car.api;
 
 import java.sql.*;
+
 import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+
+import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Favorito;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Opinion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.OpinionCollection;
 
@@ -339,5 +342,105 @@ public class OpinionResource
 		
 		return opinion;
 	}
-
+	//
+	//DELETE OPINION
+	private String DELETE_OPINION_QUERY="delete from opiniones where idopinion=?";
+	@DELETE
+	@Path("/{idopinion}")
+	public void deleteOpinion(@PathParam("idopinion") String idopinion)
+	{
+		Connection conn=null;
+		try
+		{
+			conn=ds.getConnection();
+			
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		PreparedStatement stmt=null;
+		try
+		{
+			stmt=conn.prepareStatement(DELETE_OPINION_QUERY);
+			stmt.setInt(1,Integer.valueOf(idopinion));
+			int rows = stmt.executeUpdate();
+			if(rows==0)
+			{
+				//deleteting inexisting posicion
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(stmt!=null)
+				stmt.close();
+				conn.close();
+			}
+			catch(SQLException e)
+			{
+				
+			}
+		}		
+	}
+	//
+	//UPDATE OPINION
+	private String UPDATE_OPINION_QUERY="update opiniones set content=ifnull(?,content), precio=ifnull(?,precio) where idopinion=?";
+	@PUT
+	@Path("/{idopinion}")
+	@Consumes(MediaType.CAR_API_OPINION)
+	@Produces(MediaType.CAR_API_OPINION)
+	public Opinion updateOpinion(@PathParam("idopinion") String idopinion, Opinion opinion)
+	{
+		Connection conn =null;
+		try
+		{
+			conn=ds.getConnection();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		PreparedStatement stmt=null;
+		try
+		{
+			stmt=conn.prepareStatement(UPDATE_OPINION_QUERY);
+			
+			stmt.setString(1, opinion.getContent());
+			stmt.setString(2, opinion.getPrecio());
+			stmt.setInt(3, Integer.valueOf(idopinion));
+			int rows=stmt.executeUpdate();
+			if(rows==1)
+				opinion = getOpinion(idopinion);
+			else
+			{
+				//Updateing inexisting posicion description
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(stmt !=null)
+				stmt.close();
+				conn.close();
+			}
+			catch(SQLException e)
+			{
+				
+			}
+		}
+		
+		return opinion;
+		}
 }
