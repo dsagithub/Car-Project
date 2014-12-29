@@ -15,7 +15,7 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.MediaType;
 public class FavoritoCollection {
 	@InjectLinks
 	({
-	   @InjectLink(value ="/favorito?username={username}",style = Style.ABSOLUTE, rel = "one user's favorite", title = "Get-favorito by username", type = MediaType.CAR_API_FAVORITO_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
+	   @InjectLink(value ="/favorito?username={username}",style = Style.ABSOLUTE, rel = "one-favorite", title = "Get-favorito by username", type = MediaType.CAR_API_FAVORITO_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
 	})
 	private List<Link> links;
 	private List<Favorito> favoritos;

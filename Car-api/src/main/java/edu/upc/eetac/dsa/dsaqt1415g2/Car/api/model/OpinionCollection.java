@@ -17,7 +17,7 @@ public class OpinionCollection {
 	
 	@InjectLinks
 	({
-	   @InjectLink(value ="/opinion?username={username}",style = Style.ABSOLUTE, rel = "one user's opinion", title = "Get-opinion by username", type = MediaType.CAR_API_OPINION_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
+	   @InjectLink(value ="/opinion?username={username}",style = Style.ABSOLUTE, rel = "one-opinion", title = "Get-opinion by username", type = MediaType.CAR_API_OPINION_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
 	})
 	private List<Link> links;
 	private List<Opinion> opiniones;

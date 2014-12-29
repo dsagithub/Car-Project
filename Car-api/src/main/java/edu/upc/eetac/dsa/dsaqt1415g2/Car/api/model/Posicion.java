@@ -15,7 +15,7 @@ public class Posicion
 	
 	@InjectLinks
 	({
-		@InjectLink(value ="/posicion/{idposicion}", style = Style.ABSOLUTE, rel = "self edit", title = "One Posicion", type = MediaType.CAR_API_POSICION, method = "Get posicion", bindings = @Binding(name = "idposicion", value = "${instance.idposicion}")) 
+		@InjectLink(value ="/posicion/{idposicion}", style = Style.ABSOLUTE, rel = "self-edit", title = "One Posicion", type = MediaType.CAR_API_POSICION, method = "Get posicion", bindings = @Binding(name = "idposicion", value = "${instance.idposicion}")) 
 	})
 	
 	
