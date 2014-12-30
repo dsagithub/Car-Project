@@ -1,9 +1,25 @@
 package edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model;
 
+import java.util.List;
+
+import javax.ws.rs.core.Link;
+
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import org.glassfish.jersey.linking.InjectLink.Style;
+
+import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.MediaType;
+
 public class User 
 {
+	@InjectLinks
+	({
+		@InjectLink(value ="/user/{username}", style = Style.ABSOLUTE, rel = "self edit", title = "One user", type = MediaType.CAR_API_USER, method = "Get user", bindings = @Binding(name = "username", value = "${instance.username}")) 
+	})
+	private List<Link> links;
 	private String username;
-	private String password;
+	private String userpass;
 	private String email;
 	private boolean loginSuccessful;
 	
@@ -16,13 +32,13 @@ public class User
 	{
 		this.username = username;
 	}
-	public String getPassword() 
+	public String getUserpass() 
 	{
-		return password;
+		return userpass;
 	}
-	public void setPassword(String password) 
+	public void setUserpass(String userpass) 
 	{
-		this.password = password;
+		this.userpass = userpass;
 	}
 	public String getEmail() 
 	{
@@ -39,7 +55,12 @@ public class User
 	public void setLoginSuccessful(boolean loginSuccessful) {
 		this.loginSuccessful = loginSuccessful;
 	}
-
+	public List<Link> getLinks() {
+		return links;
+	}
+	public void setLinks(List<Link> links) {
+		this.links = links;
+	}
 	
 
 }
