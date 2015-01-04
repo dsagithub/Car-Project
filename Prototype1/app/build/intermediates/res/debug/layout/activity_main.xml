@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity">
+
+
+
+
+    <fragment
+        android:id="@+id/mapView"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Latitude:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelLa"
+        android:layout_alignTop="@+id/btnShowLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <TextView
+        android:text="ValueLa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/valueLa"
+        android:layout_alignTop="@+id/labelLa"
+        android:layout_toRightOf="@+id/labelLa"
+        android:layout_toEndOf="@+id/labelLa" />
+
+
+    <TextView
+        android:text="Longitude:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelLon"
+        android:layout_alignBottom="@+id/btnShowLocation"
+        android:layout_alignLeft="@+id/labelLa"
+        android:layout_alignStart="@+id/labelLa" />
+
+
+    <TextView
+        android:text="ValueLon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/valueLon"
+        android:layout_alignTop="@+id/labelLon"
+        android:layout_toRightOf="@+id/labelLon"
+        android:layout_toEndOf="@+id/labelLon" />
+
+
+
+
+
+
+    <Button android:id="@+id/btnShowLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Location"
+        android:layout_below="@+id/mapView"
+        android:layout_alignRight="@+id/SavePosition"
+        android:layout_alignEnd="@+id/SavePosition"
+        android:layout_marginTop="22dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Save Position  "
+        android:onClick="SavePosition"
+        android:id="@+id/SavePosition"
+        android:layout_below="@+id/valueLon"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="18dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Get My Car  "
+        android:onClick="GetMyCar"
+        android:id="@+id/GetMyCar"
+        android:layout_alignTop="@+id/SavePosition"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PruebaGet"
+        android:id="@+id/prueba"
+        android:onClick="PruebaGet"
+        android:layout_alignTop="@+id/SavePosition"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+<!-- From: file:/home/yifeige/Desktop/Prototype1/app/src/main/res/layout/activity_main.xml -->
