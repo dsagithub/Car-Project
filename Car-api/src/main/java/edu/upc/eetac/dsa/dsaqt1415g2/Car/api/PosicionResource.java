@@ -13,6 +13,8 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 @Path("/posicion")
 public class PosicionResource 
 {
+	@Context
+	private SecurityContext security;
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	//
 	//CREAR UNA POSICION NUEVA
@@ -287,6 +289,7 @@ public class PosicionResource
 		@Produces(MediaType.CAR_API_POSICION)
 		public Posicion updatePosicion(@PathParam("idposicion") String idposicion, Posicion posicion)
 		{
+			validateUser(idposicion);
 			Connection conn =null;
 			try
 			{
@@ -331,4 +334,66 @@ public class PosicionResource
 			
 			return posicion;
 			}
+		
+		
+		private void validateUser(String idposicion)
+		{
+			Posicion posicion=getPosicionFromDatabase(idposicion);
+			String username=posicion.getUsername();
+			if (!security.getUserPrincipal().getName().equals(username)) 
+			{
+				throw new ForbiddenException("You are not allowed to modify this Description.");
+			}
+		}
+		private Posicion getPosicionFromDatabase(String idposicion)
+		{
+			Posicion posicion=new Posicion();
+			Connection conn = null;
+			try 
+			{
+			conn = ds.getConnection();
+			} 
+			catch (SQLException e) 
+			{
+			e.printStackTrace();
+			}
+			 
+			PreparedStatement stmt = null; 
+			try
+			{
+				stmt=conn.prepareStatement(GET_POSICION_BY_ID);
+				stmt.setInt(1, Integer.valueOf(idposicion));
+				ResultSet rs=stmt.executeQuery();
+				if(rs.next())
+				{
+					posicion.setIdposicion(rs.getInt("idposicion"));
+					posicion.setUsername(rs.getString("username"));
+					posicion.setCoordenadaX(rs.getDouble("coordenadaX"));
+					posicion.setCoordenadaY(rs.getDouble("coordenadaY"));
+					posicion.setDescripcion(rs.getString("descripcion"));
+					posicion.setFecha(rs.getTimestamp("fecha").getTime());
+				}
+			}
+				catch(SQLException e)
+				{
+					e.printStackTrace();
+				}
+			finally
+			{
+				try
+				{
+					if(stmt !=null)
+				    stmt.close();
+					
+				}catch(SQLException e)
+				{
+					
+				}
+			}
+			
+			return posicion;
+			
+		}
+		
+		
 }

@@ -7,5 +7,6 @@
 		
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"
 		dataSourceName="jdbc/cardb" localDataSource="true" digest="MD5"
-		userTable="users" userNameCol="username" userCredCol="userpass" /> 
+		userTable="users" userNameCol="username" userCredCol="userpass" 
+		userRoleTable="user_roles" roleNameCol="rolename"/> 
 </Context>
