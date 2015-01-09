@@ -9,6 +9,13 @@ userpass char(32) not null,
 email    varchar(255) not null
 );
 
+create table user_roles (
+	username			varchar(20) not null,
+	rolename 			varchar(20) not null,
+	foreign key(username) references users(username) on delete cascade,
+	primary key (username, rolename)
+);
+
 create table posiciones(
 idposicion int not null auto_increment primary key,
 username varchar(50) not null,

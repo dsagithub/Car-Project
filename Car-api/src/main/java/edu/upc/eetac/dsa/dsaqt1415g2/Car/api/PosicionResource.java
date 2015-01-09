@@ -15,6 +15,7 @@ public class PosicionResource
 {
 	@Context
 	private SecurityContext security;
+
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	//
 	//CREAR UNA POSICION NUEVA
@@ -24,6 +25,7 @@ public class PosicionResource
 	@Produces(MediaType.CAR_API_POSICION)
 	public Posicion createPosicion(Posicion posicion)
 	{
+		validatePosicion(posicion);
 		Connection conn=null;
 		try
 		{
@@ -37,7 +39,7 @@ public class PosicionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_POSICION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, posicion.getUsername());
+			stmt.setString(1, security.getUserPrincipal().getName());
 			stmt.setDouble(2, posicion.getCoordenadaX());
 			stmt.setDouble(3, posicion.getCoordenadaY());
 			stmt.setString(4, posicion.getDescripcion());
@@ -231,13 +233,12 @@ public class PosicionResource
 	 }
 		
 		
-		private String DELETE_POSICION_QUERY="delete from posiciones where idposicion=?";
-		
-		
+		private String DELETE_POSICION_QUERY="delete from posiciones where idposicion=?";	
 		@DELETE
 		@Path("/{idposicion}")
 		public void deletePosicion(@PathParam("idposicion") String idposicion)
 		{
+			validateUser(idposicion);
 			Connection conn=null;
 			try
 			{
@@ -335,7 +336,12 @@ public class PosicionResource
 			return posicion;
 			}
 		
-		
+		//PARA VALIDAR POSICIONES
+		private void validatePosicion(Posicion posicion) {
+			if (posicion.getDescripcion() == null)
+			throw new BadRequestException("La descripcion no puede ser nula");
+			}
+		//PARA VALIDAR UN USUARIO
 		private void validateUser(String idposicion)
 		{
 			Posicion posicion=getPosicionFromDatabase(idposicion);
@@ -345,6 +351,7 @@ public class PosicionResource
 				throw new ForbiddenException("You are not allowed to modify this Description.");
 			}
 		}
+		
 		private Posicion getPosicionFromDatabase(String idposicion)
 		{
 			Posicion posicion=new Posicion();
@@ -394,6 +401,5 @@ public class PosicionResource
 			return posicion;
 			
 		}
-		
-		
+
 }
