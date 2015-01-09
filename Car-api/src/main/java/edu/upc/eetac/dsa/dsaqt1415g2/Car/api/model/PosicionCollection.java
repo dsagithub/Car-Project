@@ -14,7 +14,7 @@ public class PosicionCollection
 {
 	@InjectLinks
 	({
-	   @InjectLink(value ="/posicion?username={username}",style = Style.ABSOLUTE, rel = "one user's opinions", title = "Get-posicions by username", type = MediaType.CAR_API_POSICION_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
+	   @InjectLink(value ="/posicion?username={username}",style = Style.ABSOLUTE, rel = "one-opinions", title = "Get-posicions by username", type = MediaType.CAR_API_POSICION_COLLECTION,bindings = { @Binding(name = "username", value = "${instance.username}") })
 	})
 	
 	private List<Link> links;

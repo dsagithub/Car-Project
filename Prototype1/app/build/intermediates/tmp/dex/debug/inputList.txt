@@ -1,0 +1,7 @@
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/classes/debug
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-1cd1039154f1bb9cc0d4a9da3e8b7ec509fd8b06.jar
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-2255228d9bda2f21b0cca8a26e475a7b06a633cb.jar
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/pre-dexed/debug/gson-2.3.1-bc3beeb62e244a5f922aad1e4aaed800c986e86d.jar
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/pre-dexed/debug/classes-89eaa04bf138190d98e69a890514c52dc8ed5600.jar
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/pre-dexed/debug/classes-a36603a92e619f5e3ae7c1b28168f443a2a493e4.jar
+/home/yifeige/Desktop/Prototype1/app/build/intermediates/pre-dexed/debug/classes-cc5a78dabc818047352fafb33c09c5e6c5af4079.jar

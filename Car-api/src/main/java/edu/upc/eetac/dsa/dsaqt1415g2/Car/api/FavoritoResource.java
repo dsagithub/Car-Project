@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -16,15 +18,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.SecurityContext;
 
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Favorito;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.FavoritoCollection;
+import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Opinion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 
 @Path("/favorito")
 public class FavoritoResource 
 {
-	
+	@Context
+	private SecurityContext security;
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 
 	// GET TODOS LOS FAVORITOS DE UN USUARIO POR SU USERNAME
@@ -87,6 +93,7 @@ public class FavoritoResource
 	@Produces(MediaType.CAR_API_FAVORITO)
 	public Favorito createFavorito(Favorito favorito) 
 	{
+		validateFavritos(favorito);
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -98,7 +105,7 @@ public class FavoritoResource
 		try {
 			stmt = conn.prepareStatement(INSERT_FAVORITO_QUERY,Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, favorito.getIdposicion());
-			stmt.setString(2, favorito.getUsername());
+			stmt.setString(2, security.getUserPrincipal().getName());
 			stmt.setString(3, favorito.getDescripcion());
 			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
@@ -191,6 +198,7 @@ public class FavoritoResource
 	@Path("/{idfavorito}")
 	public void deleteFavorito(@PathParam("idfavorito") String idfavorito)
 	{
+		validateUser(idfavorito);
 		Connection conn=null;
 		try
 		{
@@ -240,6 +248,7 @@ public class FavoritoResource
 	@Produces(MediaType.CAR_API_FAVORITO)
 	public Favorito updateFavorito(@PathParam("idfavorito") String idfavorito, Favorito favorito)
 	{
+		validateUser(idfavorito);
 		Connection conn =null;
 		try
 		{
@@ -283,5 +292,70 @@ public class FavoritoResource
 		}
 		
 		return favorito;
+		}
+	
+	//PARA VALIDAR FAVORITOS
+		private void validateFavritos(Favorito favorito) {
+			if (favorito.getDescripcion() == null)
+			throw new BadRequestException("La descripcion no puede ser nula");
+			}
+	//PARA VALIDAR UN USUARIO
+		private void validateUser(String idfavorito)
+		{
+			Favorito favorito= getFavoritoFromDatabase(idfavorito);
+			String username=favorito.getUsername();
+			if (!security.getUserPrincipal().getName().equals(username)) 
+			{
+				throw new ForbiddenException("You are not allowed to modify this Description.");
+			}
+		}
+		
+		private Favorito getFavoritoFromDatabase(String idfavorito)
+		{
+			Favorito favorito=new Favorito();
+			Connection conn = null;
+			try 
+			{
+			conn = ds.getConnection();
+			} 
+			catch (SQLException e) 
+			{
+			e.printStackTrace();
+			}
+			 
+			PreparedStatement stmt = null; 
+			try
+			{
+				stmt=conn.prepareStatement(GET_FAVORITO_BY_ID);
+				stmt.setInt(1, Integer.valueOf(idfavorito));
+				ResultSet rs=stmt.executeQuery();
+				if(rs.next())
+				{
+					favorito.setIdfavorito(rs.getInt("idfavorito"));
+					favorito.setIdposicion(rs.getInt("idposicion"));
+					favorito.setUsername(rs.getString("username"));
+					favorito.setDescripcion(rs.getString("descripcion"));
+					favorito.setFecha(rs.getTimestamp("fecha").getTime());
+				}
+			}
+				catch(SQLException e)
+				{
+					e.printStackTrace();
+				}
+			finally
+			{
+				try
+				{
+					if(stmt !=null)
+				    stmt.close();
+					
+				}catch(SQLException e)
+				{
+					
+				}
+			}
+			
+			return favorito;
+			
 		}
 }

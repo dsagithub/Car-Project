@@ -14,7 +14,8 @@ import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 public class PosicionResource 
 {
 	@Context
-	private SecurityContext security; 
+	private SecurityContext security;
+
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
 	//
 	//CREAR UNA POSICION NUEVA
@@ -24,6 +25,7 @@ public class PosicionResource
 	@Produces(MediaType.CAR_API_POSICION)
 	public Posicion createPosicion(Posicion posicion)
 	{
+		validatePosicion(posicion);
 		Connection conn=null;
 		try
 		{
@@ -37,7 +39,7 @@ public class PosicionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_POSICION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, posicion.getUsername());
+			stmt.setString(1, security.getUserPrincipal().getName());
 			stmt.setDouble(2, posicion.getCoordenadaX());
 			stmt.setDouble(3, posicion.getCoordenadaY());
 			stmt.setString(4, posicion.getDescripcion());
@@ -236,6 +238,7 @@ public class PosicionResource
 		@Path("/{idposicion}")
 		public void deletePosicion(@PathParam("idposicion") String idposicion)
 		{
+			validateUser(idposicion);
 			Connection conn=null;
 			try
 			{
@@ -333,17 +336,25 @@ public class PosicionResource
 			return posicion;
 			}
 		
-		private void validateUser(String posicionid) 
+		//PARA VALIDAR POSICIONES
+		private void validatePosicion(Posicion posicion) {
+			if (posicion.getDescripcion() == null)
+			throw new BadRequestException("La descripcion no puede ser nula");
+			}
+		//PARA VALIDAR UN USUARIO
+		private void validateUser(String idposicion)
 		{
-			Posicion posicion = getPosicionFromDatabase(posicionid);
-			if (!security.getUserPrincipal().getName()
-					.equals(posicion.getUsername()))
-			throw new ForbiddenException("You are not allowed to modify this sting.");
-		} 		
+			Posicion posicion=getPosicionFromDatabase(idposicion);
+			String username=posicion.getUsername();
+			if (!security.getUserPrincipal().getName().equals(username)) 
+			{
+				throw new ForbiddenException("You are not allowed to modify this Description.");
+			}
+		}
 		
-		private Posicion getPosicionFromDatabase(String posicionid)
+		private Posicion getPosicionFromDatabase(String idposicion)
 		{
-			Posicion posicion =new Posicion();
+			Posicion posicion=new Posicion();
 			Connection conn = null;
 			try 
 			{
@@ -358,7 +369,7 @@ public class PosicionResource
 			try
 			{
 				stmt=conn.prepareStatement(GET_POSICION_BY_ID);
-				stmt.setInt(1, Integer.valueOf(posicionid));
+				stmt.setInt(1, Integer.valueOf(idposicion));
 				ResultSet rs=stmt.executeQuery();
 				if(rs.next())
 				{
@@ -390,4 +401,5 @@ public class PosicionResource
 			return posicion;
 			
 		}
+
 }
