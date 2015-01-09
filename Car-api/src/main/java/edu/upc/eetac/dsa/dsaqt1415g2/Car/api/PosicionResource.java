@@ -128,7 +128,7 @@ public class PosicionResource
 		return posicion;
 	}
 	// GET TODAS LAS POSICIONES DE UN USUARIO POR SU USERNAME
-		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc";
+		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc limit 5";
 		@GET
 		@Produces(MediaType.CAR_API_POSICION_COLLECTION)
 		public PosicionCollection getPosiciones(@QueryParam("username") String username) 
