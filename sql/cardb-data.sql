@@ -4,6 +4,11 @@ insert into users(username,userpass,email) values('ruben',MD5('ruben'),'rubendar
 insert into users(username,userpass,email) values('nestor',MD5('nestor'),'nestorcuadrado@estudiant.upc.edu');
 insert into users(username,userpass,email) values('david',MD5('david'),'davidmartinez@estudiant.upc.edu');
 
+insert into user_roles values ('yifei', 'registered');
+insert into user_roles values ('ruben', 'registered');
+insert into user_roles values ('nestor', 'registered');
+insert into user_roles values ('david', 'registered');
+
 select sleep(1);insert into posiciones (username,coordenadaX,coordenadaY,descripcion) values('yifei','4000','23665','calle portbou 136');
 select sleep(1);insert into posiciones (username,coordenadaX,coordenadaY,descripcion) values('nestor','3009','12005','Una calle cerca de mi casa');
 select sleep(1);insert into posiciones (username,coordenadaX,coordenadaY,descripcion) values('yifei','19447','868674','parking SB de Pl.Catalunya');
