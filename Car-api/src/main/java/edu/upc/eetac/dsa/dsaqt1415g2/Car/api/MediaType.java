@@ -13,5 +13,6 @@ public class MediaType
 	
 	public final static String CAR_API_FAVORITO = "application/vnd.Car.api.favorito+json";
 	public final static String CAR_API_FAVORITO_COLLECTION = "application/vnd.Car.api.favorito.collection+json";
+	public final static String CAR_API_ERROR="application/vnd.Car.api.error+json";
 
 }

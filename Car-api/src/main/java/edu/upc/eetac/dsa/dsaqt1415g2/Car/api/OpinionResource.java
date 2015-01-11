@@ -9,20 +9,15 @@ import javax.ws.rs.core.*;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Favorito;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Opinion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.OpinionCollection;
-
-
-
-
+import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 
 
 @Path("/opinion")
 public class OpinionResource 
 {
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
-	
-	
-	
-	
+	@Context
+	private SecurityContext security;
 
 	// GET TODAS LAS OPINIONES DE UN USUARIO POR SU USERNAME
 	private String GET_OPINIONES_USERNAME_QUERY = "select * from opiniones where username=? order by idposicion desc";
@@ -235,6 +230,7 @@ public class OpinionResource
 	@Produces(MediaType.CAR_API_OPINION)
 	public Opinion createOpinion(Opinion opinion)
 	{
+		validateOpinion(opinion);
 		Connection conn=null;
 		try
 		{
@@ -248,7 +244,7 @@ public class OpinionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_OPINION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, opinion.getUsername());
+			stmt.setString(1, security.getUserPrincipal().getName());
 			stmt.setInt(2, opinion.getIdposicion());
 			stmt.setString(3, opinion.getContent());
 			stmt.setString(4, opinion.getPrecio());
@@ -349,6 +345,7 @@ public class OpinionResource
 	@Path("/{idopinion}")
 	public void deleteOpinion(@PathParam("idopinion") String idopinion)
 	{
+		validateUser(idopinion);
 		Connection conn=null;
 		try
 		{
@@ -398,6 +395,7 @@ public class OpinionResource
 	@Produces(MediaType.CAR_API_OPINION)
 	public Opinion updateOpinion(@PathParam("idopinion") String idopinion, Opinion opinion)
 	{
+		validateUser(idopinion);
 		Connection conn =null;
 		try
 		{
@@ -443,4 +441,72 @@ public class OpinionResource
 		
 		return opinion;
 		}
+	
+	//PARA VALIDAR OPINIONES
+	private void validateOpinion(Opinion opinion) {
+		if (opinion.getContent() == null)
+		throw new BadRequestException("La descripcion no puede ser nula");
+		if (opinion.getPrecio() == null)
+			throw new BadRequestException("La descripcion no puede ser nula");
+		}
+	//PARA VALIDAR UN USUARIO
+	private void validateUser(String idopinion)
+	{
+		Opinion posicion= getOpinionFromDatabase(idopinion);
+		String username=posicion.getUsername();
+		if (!security.getUserPrincipal().getName().equals(username)) 
+		{
+			throw new ForbiddenException("You are not allowed to modify this Description.");
+		}
+	}
+	
+	private Opinion getOpinionFromDatabase(String idopinion)
+	{
+		Opinion opinion=new Opinion();
+		Connection conn = null;
+		try 
+		{
+		conn = ds.getConnection();
+		} 
+		catch (SQLException e) 
+		{
+		e.printStackTrace();
+		}
+		 
+		PreparedStatement stmt = null; 
+		try
+		{
+			stmt=conn.prepareStatement(GET_OPINION_BY_ID);
+			stmt.setInt(1, Integer.valueOf(idopinion));
+			ResultSet rs=stmt.executeQuery();
+			if(rs.next())
+			{
+				opinion.setIdposicion(rs.getInt("idposicion"));
+				opinion.setUsername(rs.getString("username"));
+				opinion.setIdopinion(rs.getInt("idopinion"));
+				opinion.setContent(rs.getString("content"));
+				opinion.setPrecio(rs.getString("precio"));
+				opinion.setFecha(rs.getTimestamp("fecha").getTime());
+			}
+		}
+			catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		finally
+		{
+			try
+			{
+				if(stmt !=null)
+			    stmt.close();
+				
+			}catch(SQLException e)
+			{
+				
+			}
+		}
+		
+		return opinion;
+		
+	}
 }
