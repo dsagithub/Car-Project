@@ -244,7 +244,7 @@ public class OpinionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_OPINION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, security.getUserPrincipal().getName());
+			stmt.setString(1, opinion.getUsername());
 			stmt.setInt(2, opinion.getIdposicion());
 			stmt.setString(3, opinion.getContent());
 			stmt.setString(4, opinion.getPrecio());
@@ -345,7 +345,7 @@ public class OpinionResource
 	@Path("/{idopinion}")
 	public void deleteOpinion(@PathParam("idopinion") String idopinion)
 	{
-		validateUser(idopinion);
+		//validateUser(idopinion);
 		Connection conn=null;
 		try
 		{
@@ -395,7 +395,7 @@ public class OpinionResource
 	@Produces(MediaType.CAR_API_OPINION)
 	public Opinion updateOpinion(@PathParam("idopinion") String idopinion, Opinion opinion)
 	{
-		validateUser(idopinion);
+		//validateUser(idopinion);
 		Connection conn =null;
 		try
 		{
@@ -443,7 +443,8 @@ public class OpinionResource
 		}
 	
 	//PARA VALIDAR OPINIONES
-	private void validateOpinion(Opinion opinion) {
+	private void validateOpinion(Opinion opinion) 
+	{
 		if (opinion.getContent() == null)
 		throw new BadRequestException("La descripcion no puede ser nula");
 		if (opinion.getPrecio() == null)

@@ -100,4 +100,18 @@
 			<http-method>DELETE</http-method>
 		</web-resource-collection>
 	</security-constraint> 
+	
+	
+	<!-- Luego pondremos la seguridad
+	<security-constraint>
+	<web-resource-collection>
+		<web-resource-name>Posicions</web-resource-name>
+			<url-pattern>/posicion/*</url-pattern>
+		<http-method>POST</http-method>
+	</web-resource-collection>
+	<auth-constraint>
+		<role-name>registered</role-name>
+	</auth-constraint>
+</security-constraint> -->
+
 </web-app>

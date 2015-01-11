@@ -47,7 +47,7 @@ public class PosicionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_POSICION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, security.getUserPrincipal().getName());
+			stmt.setString(1, posicion.getUsername());
 			stmt.setDouble(2, posicion.getCoordenadaX());
 			stmt.setDouble(3, posicion.getCoordenadaY());
 			stmt.setString(4, posicion.getDescripcion());
@@ -300,7 +300,7 @@ public class PosicionResource
 		@Path("/{idposicion}")
 		public void deletePosicion(@PathParam("idposicion") String idposicion)
 		{
-			validateUser(idposicion);
+			//validateUser(idposicion);
 			Connection conn=null;
 			try
 			{
@@ -352,7 +352,7 @@ public class PosicionResource
 		@Produces(MediaType.CAR_API_POSICION)
 		public Posicion updatePosicion(@PathParam("idposicion") String idposicion, Posicion posicion)
 		{
-			validateUser(idposicion);
+			//validateUser(idposicion);
 			Connection conn =null;
 			try
 			{
