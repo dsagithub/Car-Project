@@ -164,10 +164,29 @@ $("#info-posicion5").click(function (e)
  	var id=$("#InputID").val();
  	console.log(id);
  	newOpi.content=$("#Comment-Content").val();
- 	window.alert($("#Comment-Content").val());
  	console.log(newOpi.content);
 
  	updateOpinion(newOpi,id);
+ });
+
+ $("#show-input").click(function (e)
+ {
+
+ 	e.preventDefault();
+ 	document.getElementById('CommentUsername').style.display="block";
+ 	document.getElementById('CommentPrice').style.display="block";
+
+ });
+
+ $("#post-opinion").click(function (e)
+ {
+ 	e.preventDefault();
+ 	var newOpin=new Object();
+ 	    newOpin.id=$("#InputID").val();
+ 	    newOpin.username=$("#InputUsername").val();
+ 	    newOpin.content=$("#Comment-Content").val();
+ 	    newOpin.price=$("#InputPrice").val();
+
  });
 
 
