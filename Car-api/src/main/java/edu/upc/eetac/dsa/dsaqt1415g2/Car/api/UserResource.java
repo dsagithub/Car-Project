@@ -106,10 +106,10 @@ public class UserResource {
 	@POST
 	@Produces(MediaType.CAR_API_USER)
 	@Consumes(MediaType.CAR_API_USER)
-	public User login(User user) {
+	public User login(User user) 
+	{
 		if (user.getUsername() == null || user.getUserpass() == null)
-			throw new BadRequestException(
-					"username and password cannot be null.");
+			throw new BadRequestException("username and password cannot be null.");
 		String pwdDigest = DigestUtils.md5Hex(user.getUserpass());
 		String storedPwd = getUserFromDatabase(user.getUsername(), true)
 				.getUserpass();

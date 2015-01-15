@@ -244,13 +244,13 @@ function showfarotis()
  {
  	e.preventDefault();
  	var newOpin=new Object();
- 	    newOpin.id=$("#InputID").val();
+ 	    newOpin.idposicion=$("#InputID").val();
  	    console.log(newOpin.id);
  	    newOpin.username=$("#InputUsername").val();
  	    console.log(newOpin.username);
  	    newOpin.content=$("#Comment-Content").val();
  	    console.log(newOpin.content);
- 	    newOpin.price=$("#InputPrice").val();
+ 	    newOpin.precio=$("#InputPrice").val();
  	    console.log(newOpin.price);
 
  	    postOpi(newOpin);
