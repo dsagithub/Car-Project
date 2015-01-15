@@ -77,31 +77,311 @@
             <div class="container-fluid">
 
 
+
+
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1><a href="#menu-toggle" class="btn btn-dark btn-lg toggle" id="menu-toggle"><i class="fa fa-bars fa-2x"></i></a>Un prototipo Simple del proyecto final DSA </h1>
+                        <h1><a href="#menu-toggle" class="btn btn-dark btn-lg toggle" id="menu-toggle"><i class="fa fa-bars fa-2x"></i>
+                        </a>Un prototipo Simple del proyecto final DSA </h1>
+                         
+
+
                         <p>Esta pagina va a ser nuestra pagina principal del cliente web donde los usuarios despues de haber identificado puede realizar una serie de consultas.</p>
-                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>       
-                         <button type="button" class="btn btn-info" id="posicion">Localizar el coche</button>
-                         <button type="button" class="btn btn-info" id="get_last">Muestra la posicion guardada</button>
-                         <p id="result">Resultado:<label id="coordenadasX"></label><label id="coordenadasY"></label>
-                        <button type="button" class="btn btn-info" id="post_posicion" style="background-color:#4682B4">Guarda la posicion</button>
+                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p> 
+
+                        <nav class="navbar navbar-default">
+                          <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">Brand</a>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                          <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+                             <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mis Posiciones<span class="caret"></span></a>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a href="get-opinions" id="get-opinions">Ver mis comentarios</a></li>
+                                <li><a href="#">Escribir un comentario</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                            <li><a href="#">Link</a></li>
+                           
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="Search">
+                      </div>
+                      <a href="#"><i class="fa fa-search"></i></a>
+                  </form>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+                         
+
+                        <!--      
+                         <button type="button" class="btn btn-info" id="posicion">Localizar el coche</button> -->
+                        <!--
+                         <button type="button" class="btn btn-info" id="get_last">Muestra la posicion guardada</button> -->
+
+                         <!--                  
+                         <p id="result">Resultado:<label id="coordenadasX"></label><label id="coordenadasY"></label> -->
+
+                         
+                         <!--   
+                        <button type="button" class="btn btn-info" id="post_posicion" style="background-color:#4682B4">Guarda la posicion</button> -->
+                        
+                        <!--
+                        <button type="button" class="btn btn-info" id="get_posicions" style="background-color:#4682B4">Get Posiciones</button> -->
+
                          </p>
-                         <div>
+
+
+                        <div>
                         <span id="posicion_result"></span>
                         </div>
 
 
 
-                        <div class="row">
+                        <div class="row" id="posicion-info">
 
                         <div class="col-xs-6 col-md-4" id="mapholder">
-                        </div>
-
-                        <div class="col-xs-6 col-md-4" id="last_result">
-                        </div>
 
                         </div>
+
+
+
+
+
+
+
+                        <div class="col-xs-6 col-md-4" id="panelholder">
+
+                        <div class="panel panel-default" id="panel-test1">
+                        <div class="panel-heading" id="panel-head1">
+                        <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" id="info-posicion1">Posicion:<label id="panel1"></label></a>
+                        </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse ">
+                        <div class="panel-body" id="panel-body1">
+
+                        <p>Esperamos que los datos llegan dentro del panel</p>
+                        <p><a href="add posicion" id="link-addM1">Ver posicion por mapa</a></p>
+                        
+                        <label id="panel-idposicion1"></label></br>
+                        <label id="panel-coordenadasX1"></label></br>
+                        <label id="panel-coordenadasY1"></label></br>
+                        <label id="panel-descripcion1"></label></br>
+                        <label id="panel-fecha1"></label></br>
+                        
+
+                         
+                       </div>
+
+                       </div>
+                       </div>
+
+
+                    
+                        <div class="panel panel-default" id="panel-test2">
+                        <div class="panel-heading" id="panel-head2">
+                        <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" id="info-posicion2">Posicion</a>
+                        </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse ">
+                        <div class="panel-body" id="panel-body2">
+                        <p>Esperamos que los datos llegan dentro del panel</p>
+                        <p><a href="add posicion" id="link-addM2">Ver posicion por mapa</a></p> 
+                        <label id="panel-idposicion2"></label></br>
+                        <label id="panel-coordenadasX2"></label></br>
+                        <label id="panel-coordenadasY2"></label></br>
+                        <label id="panel-descripcion2"></label></br>
+                        <label id="panel-fecha2"></label></br>
+
+                       </div>
+
+                       </div>
+                       </div>
+
+
+
+
+
+                        <div class="panel panel-default" id="panel-test3">
+                        <div class="panel-heading" id="panel-head3">
+                        <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" id="info-posicion3">Posicion</a>
+                        </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse ">
+                        <div class="panel-body" id="panel-body3">
+                        <p>Esperamos que los datos llegan dentro del panel
+                        </p> 
+                        <p><a href="add posicion" id="link-addM3">Ver posicion por mapa</a></p> 
+                        <label id="panel-idposicion3"></label></br>
+                        <label id="panel-coordenadasX3"></label></br>
+                        <label id="panel-coordenadasY3"></label></br>
+                        <label id="panel-descripcion3"></label></br>
+                        <label id="panel-fecha3"></label></br>
+                       </div>
+
+                       </div>
+                       </div>
+
+
+
+
+
+                        <div class="panel panel-default" id="panel-test4">
+                        <div class="panel-heading" id="panel-head4">
+                        <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse4" id="info-posicion4">Posicion</a>
+                        </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse ">
+                        <div class="panel-body" id="panel-body4">
+                        <p>Esperamos que los datos llegan dentro del panel
+                        </p>
+                        <p><a href="add posicion" id="link-addM4">Ver posicion por mapa</a></p> 
+                        <label id="panel-idposicion4"></label></br>
+                        <label id="panel-coordenadasX4"></label></br>
+                        <label id="panel-coordenadasY4"></label></br>
+                        <label id="panel-descripcion4"></label></br>
+                        <label id="panel-fecha4"></label></br>
+                       </div>
+
+                       </div>
+                       </div>
+
+
+
+                        <div class="panel panel-default" id="panel-test5">
+                        <div class="panel-heading" id="panel-head5">
+                        <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse5" id="info-posicion5">Posicion</a>
+                        </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse ">
+                        <div class="panel-body" id="panel-body5">
+                        <p>Esperamos que los datos llegan dentro del panel
+                        </p>
+                        <p><a href="add posicion" id="link-addM5">Ver posicion por mapa</a></p> 
+                        <label id="panel-idposicion5"></label></br>
+                        <label id="panel-coordenadasX5"></label></br>
+                        <label id="panel-coordenadasY5"></label></br>
+                        <label id="panel-descripcion5"></label></br>
+                        <label id="panel-fecha5"></label></br>
+                       </div>
+
+                       </div>
+                       </div>
+
+
+   
+                      
+
+                       </div>
+
+                        <div class="col-xs-4 col-md-4" id="comments_result">
+                        <div class="panel panel-default">
+                        <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                        </div>
+                        <div class="panel-body" id="panel-opinion">
+                            Panel content
+                        </div>
+                       </div>
+                       </div>
+
+
+
+
+
+
+
+
+                       
+
+
+                       
+
+
+                 </div>
+
+
+
+               
+
+
+                <div class="container-fluid" id="comments-area">
+                <div class="row" id="comments">
+
+
+                <div class="col-xs-4" id="CommentUsername">
+                <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon5">Username</span>
+                <input type="text" class="form-control">
+                </div>
+                </div>
+
+
+                <div class="col-xs-4" id="CommentID">
+                <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon5">ID</span>
+                <input type="text" class="form-control" id="InputID">
+                </div>
+                </div>
+
+           
+                
+                <div class="col-xs-4" id="CommentPrice">
+                <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon5">Precio</span>
+                <input type="text" class="form-control">
+                </div>
+                </div>
+
+                <textarea class="form-control" rows="10" placeholder="Escribe un contenido" id="Comment-Content"></textarea>
+                <button type="button" class="btn btn-info" id="update-opinion" style="background-color:#4682B4">Guardar Comentario</button>
+
+                
+               </div>
+               </div>
+
+                
+
+
+
+
 
                          
 

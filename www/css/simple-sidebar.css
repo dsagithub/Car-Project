@@ -36,7 +36,8 @@
     transition: all 0.5s ease;
 }
 
-#wrapper.toggled #sidebar-wrapper {
+#wrapper.toggled #sidebar-wrapper 
+{
     width: 250px;
 }
 
@@ -159,19 +160,62 @@
         margin-right: 0;
     }
     
-     #last_result.col-md-4 h4
+     /*#last_result.col-md-4 h4
     {
         
-        font-size: 150%;
+        font-size: 100%;
         line-height: 40px;
     }
 
-    #last_result.col-md-4 
+    #panelholder1.col-md-4 
     {
         font-family: Merienda;
-        font-size: 150%;
+        font-size:   100%;
+        line-height: 40px;
+    }*/
+
+     #posicion-info
+    {
+        border: 1px solid black;
+        
+        font-family: Merienda;
+        font-size:   100%;
         line-height: 40px;
     }
+
+    #comments_result
+    {
+        display: none;
+
+    }
+    #comments-area
+    {
+     border: 1px solid black;   
+    }
+    #CommentUsername
+    {
+       margin-left: -15px;
+        display: none;
+    }
+    #CommentID
+    {
+       margin-left: -15px;
+       display: block; 
+    }
+    #CommentPrice
+    {
+        display: none;
+    }
+    #post-opinion
+    {
+        float: right;
+        
+    }
+
+
+
+
+    
 
 
 

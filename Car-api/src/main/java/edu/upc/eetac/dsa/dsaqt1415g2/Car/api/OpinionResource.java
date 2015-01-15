@@ -415,7 +415,7 @@ public class OpinionResource
 			stmt.setInt(3, Integer.valueOf(idopinion));
 			int rows=stmt.executeUpdate();
 			if(rows==1)
-				opinion = getOpinion(idopinion);
+				opinion = getOpinionFromDatabase(idopinion);
 			else
 			{
 				//Updateing inexisting posicion description

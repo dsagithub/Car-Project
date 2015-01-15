@@ -371,7 +371,7 @@ public class PosicionResource
 				stmt.setInt(2, Integer.valueOf(idposicion));
 				int rows=stmt.executeUpdate();
 				if(rows==1)
-			    posicion = getPosicion(idposicion);
+			    posicion = getPosicionFromDatabase(idposicion);
 				else
 				{
 					//Updateing inexisting posicion description
