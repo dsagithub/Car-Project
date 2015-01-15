@@ -22,54 +22,55 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
     
-    <filter>
-		<!-- The CORS filter with parameters -->
-		<filter-name>CORS</filter-name>
-		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+<filter>
+	<!-- The CORS filter with parameters -->
+	<filter-name>CORS</filter-name>
+	<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
 
-		<!-- Note: All parameters are options, if omitted the CORS Filter will 
-			fall back to the respective default values. -->
-		<init-param>
-			<param-name>cors.allowGenericHttpRequests</param-name>
-			<param-value>true</param-value>
-		</init-param>
+	<!-- Note: All parameters are options, if omitted the CORS Filter will fall 
+		back to the respective default values. -->
+	<init-param>
+		<param-name>cors.allowGenericHttpRequests</param-name>
+		<param-value>true</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.allowOrigin</param-name>
-			<param-value>*</param-value>
-		</init-param>
+	<init-param>
+		<param-name>cors.allowOrigin</param-name>
+		<param-value>*</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.allowSubdomains</param-name>
-			<param-value>false</param-value>
-		</init-param>
+	<init-param>
+		<param-name>cors.allowSubdomains</param-name>
+		<param-value>true</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.supportedMethods</param-name>
-			<param-value>GET, HEAD, POST, OPTIONS, PUT, DELETE</param-value>
-		</init-param>
+	<init-param>
+		<param-name>cors.supportedMethods</param-name>
+		<param-value>GET, HEAD, POST, OPTIONS, PUT, DELETE</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.supportedHeaders</param-name>
-			<param-value>*</param-value>
-		</init-param>
+	<init-param>
+		<param-name>cors.supportedHeaders</param-name>
+		<param-value>*</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.exposedHeaders</param-name>
-			<param-value>Content-Type, Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
-		</init-param>
+	<init-param>
+		<param-name>cors.exposedHeaders</param-name>
+		<param-value>Content-Type, Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.supportsCredentials</param-name>
-			<param-value>true</param-value>
-		</init-param>
+	<init-param>
+		<param-name>cors.supportsCredentials</param-name>
+		<param-value>true</param-value>
+	</init-param>
 
-		<init-param>
-			<param-name>cors.maxAge</param-name>
-			<param-value>3600</param-value>
-		</init-param>
-	</filter>
-	
+	<init-param>
+		<param-name>cors.maxAge</param-name>
+		<param-value>3600</param-value>
+	</init-param>
+
+</filter>
+
 	<filter-mapping>
 		<!-- CORS Filter mapping -->
 		<filter-name>CORS</filter-name>
@@ -89,29 +90,43 @@
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
-
+	
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Posicions</web-resource-name>
 			<url-pattern>/posicion/*</url-pattern>
-			<http-method>GET</http-method>
 			<http-method>POST</http-method>
 			<http-method>PUT</http-method>		
 			<http-method>DELETE</http-method>
 		</web-resource-collection>
-	</security-constraint> 
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
 	
-	
-	<!-- Luego pondremos la seguridad
 	<security-constraint>
-	<web-resource-collection>
-		<web-resource-name>Posicions</web-resource-name>
-			<url-pattern>/posicion/*</url-pattern>
-		<http-method>POST</http-method>
-	</web-resource-collection>
-	<auth-constraint>
-		<role-name>registered</role-name>
-	</auth-constraint>
-</security-constraint> -->
+		<web-resource-collection>
+			<web-resource-name>Opiniones</web-resource-name>
+			<url-pattern>/opinion/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>			
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
 
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Favoritos</web-resource-name>
+			<url-pattern>/favorito/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>		
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
 </web-app>

@@ -244,7 +244,7 @@ public class OpinionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_OPINION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, opinion.getUsername());
+			stmt.setString(1, security.getUserPrincipal().getName());
 			stmt.setInt(2, opinion.getIdposicion());
 			stmt.setString(3, opinion.getContent());
 			stmt.setString(4, opinion.getPrecio());
@@ -345,7 +345,7 @@ public class OpinionResource
 	@Path("/{idopinion}")
 	public void deleteOpinion(@PathParam("idopinion") String idopinion)
 	{
-		//validateUser(idopinion);
+		validateUser(idopinion);
 		Connection conn=null;
 		try
 		{
@@ -395,7 +395,7 @@ public class OpinionResource
 	@Produces(MediaType.CAR_API_OPINION)
 	public Opinion updateOpinion(@PathParam("idopinion") String idopinion, Opinion opinion)
 	{
-		//validateUser(idopinion);
+		validateUser(idopinion);
 		Connection conn =null;
 		try
 		{
@@ -415,7 +415,7 @@ public class OpinionResource
 			stmt.setInt(3, Integer.valueOf(idopinion));
 			int rows=stmt.executeUpdate();
 			if(rows==1)
-				opinion = getOpinion(idopinion);
+				opinion = getOpinionFromDatabase(idopinion);
 			else
 			{
 				//Updateing inexisting posicion description

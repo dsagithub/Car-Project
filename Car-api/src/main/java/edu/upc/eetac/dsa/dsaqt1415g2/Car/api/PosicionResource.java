@@ -47,7 +47,7 @@ public class PosicionResource
 		try
 		{
 			stmt=conn.prepareStatement(INSERT_POSICION_QUERY,Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, posicion.getUsername());
+			stmt.setString(1, security.getUserPrincipal().getName());
 			stmt.setDouble(2, posicion.getCoordenadaX());
 			stmt.setDouble(3, posicion.getCoordenadaY());
 			stmt.setString(4, posicion.getDescripcion());
@@ -300,7 +300,7 @@ public class PosicionResource
 		@Path("/{idposicion}")
 		public void deletePosicion(@PathParam("idposicion") String idposicion)
 		{
-			//validateUser(idposicion);
+			validateUser(idposicion);
 			Connection conn=null;
 			try
 			{
@@ -352,7 +352,7 @@ public class PosicionResource
 		@Produces(MediaType.CAR_API_POSICION)
 		public Posicion updatePosicion(@PathParam("idposicion") String idposicion, Posicion posicion)
 		{
-			//validateUser(idposicion);
+			validateUser(idposicion);
 			Connection conn =null;
 			try
 			{
@@ -371,7 +371,7 @@ public class PosicionResource
 				stmt.setInt(2, Integer.valueOf(idposicion));
 				int rows=stmt.executeUpdate();
 				if(rows==1)
-			    posicion = getPosicion(idposicion);
+			    posicion = getPosicionFromDatabase(idposicion);
 				else
 				{
 					//Updateing inexisting posicion description
