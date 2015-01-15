@@ -2,6 +2,11 @@ var API_BASE_URL = "http://localhost:8000/Car-api";
 var USERNAME;
 var PASSWORD;
 
+$.ajaxSetup
+		({
+	        headers: { 'Authorization': "Basic "+ btoa(USERNAME+':'+PASSWORD) }
+         });
+
 $("#login").click(function(e) {
 	e.preventDefault();
 	if($("#username_id").val() == "" || $("#password_id").val() == "")
@@ -28,7 +33,6 @@ $("#login").click(function(e) {
 
 function getuserpass(login)
 {
-	console.log(login);
 	var url = API_BASE_URL + '/users/login';
 	var data = JSON.stringify(login);
 
