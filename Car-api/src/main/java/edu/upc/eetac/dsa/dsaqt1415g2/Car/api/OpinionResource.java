@@ -415,7 +415,7 @@ public class OpinionResource
 			stmt.setInt(3, Integer.valueOf(idopinion));
 			int rows=stmt.executeUpdate();
 			if(rows==1)
-				opinion = getOpinion(idopinion);
+				opinion = getOpinionFromDatabase(idopinion);
 			else
 			{
 				//Updateing inexisting posicion description
@@ -443,7 +443,8 @@ public class OpinionResource
 		}
 	
 	//PARA VALIDAR OPINIONES
-	private void validateOpinion(Opinion opinion) {
+	private void validateOpinion(Opinion opinion) 
+	{
 		if (opinion.getContent() == null)
 		throw new BadRequestException("La descripcion no puede ser nula");
 		if (opinion.getPrecio() == null)

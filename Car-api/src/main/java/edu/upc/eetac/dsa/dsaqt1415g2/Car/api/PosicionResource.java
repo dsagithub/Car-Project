@@ -1,10 +1,12 @@
 package edu.upc.eetac.dsa.dsaqt1415g2.Car.api;
 import java.sql.*;
+import java.util.Vector;
 
 import javax.sql.DataSource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Page;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.Posicion;
 import edu.upc.eetac.dsa.dsaqt1415g2.Car.api.model.PosicionCollection;
 
@@ -17,6 +19,12 @@ public class PosicionResource
 	private SecurityContext security;
 
 	private DataSource ds = DataSourceSPA.getInstance().getDataSource();
+	
+	private static int index=0;
+	private static int j; //valor de offset
+	private static int i; //guardo el valor de la pagina
+	private static Vector<Integer> sp=new Vector<Integer>(1000,500);
+	
 	//
 	//CREAR UNA POSICION NUEVA
 	private String INSERT_POSICION_QUERY="insert into posiciones (username,coordenadaX,coordenadaY,descripcion) values(?,?,?,?)";
@@ -130,11 +138,15 @@ public class PosicionResource
 		return posicion;
 	}
 	// GET TODAS LAS POSICIONES DE UN USUARIO POR SU USERNAME
-		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc";
+		private String GET_POSICIONES_USERNAME_QUERY = "select * from posiciones where username=? order by idposicion desc limit 5 offset ?";
 		@GET
 		@Produces(MediaType.CAR_API_POSICION_COLLECTION)
-		public PosicionCollection getPosiciones(@QueryParam("username") String username) 
+		public PosicionCollection getPosiciones(@QueryParam("username") String username,@QueryParam("pag") int pag)
 		{
+			int offset;
+			int bpag;
+			int b;
+			
 			PosicionCollection posiciones = new PosicionCollection();
 
 			Connection conn = null;
@@ -147,7 +159,42 @@ public class PosicionResource
 			PreparedStatement stmt = null;
 			try {
 				stmt = conn.prepareStatement(GET_POSICIONES_USERNAME_QUERY);
-				stmt.setString(1, username);
+				if(pag !=0)
+				{
+					
+					sp.add(index, pag);
+					System.out.println("Guardamos la pagina"+pag);
+					index=index+1;
+					System.out.println("El valor del index dentro if"+index);
+				}
+				//i=pag;
+				if(index==1)
+				b=index-1;
+				else
+				b=index-2;
+				
+				System.out.println("El valor b"+b);
+				bpag=sp.get(b);
+				System.out.println("El valor de la pagina anterior"+bpag);
+				System.out.println("La pagina anterior es"+bpag);
+				if(pag-bpag>=0)
+				{
+					
+					offset=CalculateNext(pag);
+					System.out.println("El resultado del CalculateNext es"+offset);
+					
+				}
+				else
+				{ 
+				  offset=CalculatePrevious(pag);
+				  System.out.println("El resultado del CalculatePrevious es"+offset);
+					
+				}
+				
+				
+				
+	            stmt.setString(1, username);
+	            stmt.setInt(2, offset);
 				ResultSet rs = stmt.executeQuery();
 				//String username1=null;
 				while (rs.next()) 
@@ -162,7 +209,22 @@ public class PosicionResource
 					posicion.setFecha(rs.getTimestamp("fecha").getTime());
 					posiciones.addPosicion(posicion);
 				}
+				
 				posiciones.setUsername(username);
+				if(pag==1)
+				{
+					posiciones.setPrepag(pag);
+					posiciones.setNextpag(pag+1);
+					
+				}
+				
+				else
+				{
+					posiciones.setPrepag(pag-1);
+					posiciones.setNextpag(pag+1);
+					
+				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -309,7 +371,7 @@ public class PosicionResource
 				stmt.setInt(2, Integer.valueOf(idposicion));
 				int rows=stmt.executeUpdate();
 				if(rows==1)
-			    posicion = getPosicion(idposicion);
+			    posicion = getPosicionFromDatabase(idposicion);
 				else
 				{
 					//Updateing inexisting posicion description
@@ -401,5 +463,71 @@ public class PosicionResource
 			return posicion;
 			
 		}
+		
+		private int CalculateNext(int pag)
+		{
+			if(pag==1)
+			{
+				
+				
+				//stmt.setString(1, username);
+				//stmt.setInt(2, i);
+				/*i=i+5;
+				Page page=new Page();
+				page.setPage(i);
+				j=page.getPage();*/
+				System.out.println("En el caso de pag=1 es"+j);
+				
+				return 0;
+				
+			}
+			else
+			{
+				
+				Page page=new Page();
+				System.out.println("El numero de offset es"+j);
+				//stmt.setString(1, username);
+				//stmt.setInt(2, j);
+				j=j+5;
+				//page.setPage(j);
+				return j;
+			}
+		}
+			
+			private int CalculatePrevious(int pag)
+			{
+				if(pag==1)
+				{
+					int i=0;
+					
+					//stmt.setString(1, username);
+					//stmt.setInt(2, i);
+					i=i+5;
+					Page page=new Page();
+					page.setPage(i);
+					j=page.getPage();
+					System.out.println("El numero de j es"+j);
+					
+					return 0;
+					
+				}
+				else
+				{
+					
+					//Page page=new Page();
+					
+					//stmt.setString(1, username);
+					//stmt.setInt(2, j);
+					j=j-5;
+					System.out.println("El numero de offset es"+j);
+					//page.setPage(j);
+					return j;
+				}
+			
+			
+			
+		}
+		
+		
 
 }
