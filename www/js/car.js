@@ -1,49 +1,49 @@
 var API_BASE_URL="http://localhost:8000/Car-api";
-var name ="yifei";
 var num=1;
 var element;
 var resultado=document.getElementById("result");
 
+var usernameCookie = getCookie("username");
+var userpassCookie = getCookie("userpass");
 
-/*$("#posicion").click(function(e)
-{
-	e.preventDefault();
-	getPosicion();
-});*/
+console.log("nombre:"+usernameCookie+"password"+userpassCookie);
+$.ajaxSetup
+({
+	headers: {'Authorization':"Basic"+ btoa(usernameCookie+':'+userpassCookie)}
+});
 
-/*$("#crear_panel").click(function (e)
-{
-	e.preventDefault();
-	crearPanel();
-});*/
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+} 
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+
 
 $("#panelholder").click(function (e)
 {
 	e.preventDefault();
-	getPosicions(name);
+	getPosicions(usernameCookie);
 });
 
 
-/*$("#post_posicion").click(function (e)
-{
-	e.preventDefault();
-
-	var newposicion = new Object();
-
-	newposicion.username="yifei";
-	newposicion.coordenadaX=lat;
-	newposicion.coordenadaY=lon;
-	console.log(newposicion.coordenadaX);
-	console.log(newposicion.coordenadaY);
-	newposicion.descripcion="Esto es una prueba desde cliente web";
-	createPosicion(newposicion);
-
-});*/
 
 $("#get_last").click(function (e)
 {
 	e.preventDefault();
-	getLast(name);
+	getLast(usernameCookie);
 });
 
 $("#info-posicion1").click(function (e)
@@ -153,7 +153,7 @@ $("#info-posicion5").click(function (e)
  {
  	e.preventDefault();
  	getopinions();
- 	document.getElementById("comments_result").style.display="block";
+ 	//document.getElementById("comments_result").style.display="block";
 
  });
 
@@ -170,112 +170,103 @@ $("#info-posicion5").click(function (e)
  	updateOpinion(newOpi,id);
  });
 
-
-
-
-
-
-
-
-
-
-/*function crearPanel()
-{
-
-
-
-  //var panel="<div class="panel panel-default" id="panel-JS">";
-    
-
-
-
-
-	$('<div class="panel panel-default" id="panel-JS">').appendTo($('#panelJS'));
-	$('<div class="panel-heading" id="panel-head-JS">').appendTo($('#panelJS'));
-    $('<h4 class="panel-title">').appendTo($('#panelJS'));
-    $('<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id="mapa-JS">Mostrar mapa</a>').appendTo($('#panelJS'));
-    $('</h4>').appendTo($('#panelJS'));
-    $('</div>').appendTo($('#panelJS'));
-    $('<div id="collapseOne" class="panel-collapse collapse in">').appendTo($('#panelJS'));
-    $('<div class="panel-body" id="panel-body-JS">').appendTo($('#panelJS'));
-    $('<p>Esto es una prueba para crear Panel por JavaScript').appendTo($('#panelJS'));
-    $('</p>').appendTo($('#panelJS')); 
-    $('</div>').appendTo($('#panelJS'));
-    $('</div>').appendTo($('#panelJS'));
-    $('</div>').appendTo($('#panelJS'));
-
-
-
-
-}*/
-
-
-
-/*function getPosicion()
-{
-	
-	if(navigator.geolocation)
+$("#show-input").click(function (e)
 	{
-		navigator.geolocation.getCurrentPosition(showPosition,showError);
-	}
-	else
-	{
-		resultado.innerHTML="El navegador no soporta el Geolocalizacion";
 
-	}
+ 	setCookie('usernameCookie',' ',-1);
+ 	setCookie('userpassCookie',' ',-1);
 
-}
+ });
 
-function showPosition(position)
+ $("#show-input").click(function (e)
+ {
+
+ 	e.preventDefault();
+ 	document.getElementById('CommentUsername').style.display="block";
+ 	document.getElementById('CommentPrice').style.display="block";
+
+ });
+
+ $("#show-favoritos").click(function (e)
+ {
+ 	e.preventDefault();
+ 	showfarotis();
+ 	//document.getElementById("comments_result").style.display="block";
+
+ });
+
+
+function showfarotis()
 {
-	lat=position.coords.latitude;
-	lon=position.coords.longitude;
-	$("#coordenadasX").text(lat+",");
-	$("#coordenadasY").text(lon);
+	$("#message-text").text('');
+	var url= API_BASE_URL+'/favorito?username='+usernameCookie;
+    $.ajax
+    ({
+    	url:url,
+    	type:'GET',
+    	crossDomain:true,
+    	dataType:'json',
+    }).done(function(data,status,jqxhr)
+    {
+   		var ops=data;
+ 		//console.log(pos);
 
-	latlon=new google.maps.LatLng(lat,lon)
-	mapholder=document.getElementById('mapholder')
-	mapholder.style.height='500px';
-	mapholder.style.width='500px';
+        <!-- super importante pos.posiciones para poder pasar los datos -->
 
-	var myOptions=
-	{
-		center:latlon,zoom:14,
-		mayTypeId:google.maps.MapTypeId.ROADMAP,
-		mapTypeControl:false,
-		navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
-	}
+ 		$.each(ops.favoritos,function(index,value)
+ 		{
+ 			//console.log("El valor de pos posiciones"+pos.posiciones)
+ 			var opins=value;
+ 			//console.log(value);
+ 			//console.log("El valor de value posiciones"+value.posiciones)
 
-	var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
-	var marker = new google.maps.Marker({position:latlon,map:map,title:"You are here"});
-}
+    	$('<h4> Descripcion:'+ value.descripcion+'    '+'<a href="#"><i class="fa fa-pencil-square-o"></i></a>'+'</h4>').appendTo($('#message-text'));
+    	$('<p>').appendTo($('#message-text'));
+    	$('<strong> Fecha:'+value.fecha+'</strong></br>').appendTo($('#message-text'));
+    	$('<strong> Idfavorito:'+value.idfavorito+'</strong></br>').appendTo($('#message-text'));
+    	$('<strong> Idposicion:'+value.idposicion+'</strong><br>').appendTo($('#message-text'));
+    	$('</p>').appendTo($('#message-text'));
+    	$('<li class="divider"></li>').appendTo($('#message-text'));
+ 		});
 
-function showError(error)
-{
-	switch(error.code)
-	{
-		case error.PERMISSION_DENIED:
-		resultado.innerHTML="El usuario no ha aceptado la petition de Geolocalizacion"
-		break;
-		case error.POSITION_UNAVAILABLE:
-		resultado.innerHTML="La localizacion no esta disponible"
-		break;
-		case error.TIMEOUT:
-		resultado.innerHTML="La petition de Geolocalizacion no ha podido establecer por TIME OUT"
-		break;
-		case error.UNKNOW_ERROR:
-		resultado.innerHTML="Ha ocurrido un error desconocido"
-		break;
+        //latlon=new google.maps.LatLng(lat,lon)
+ 		//var marker = new google.maps.Marker({position:latlon,map:map,title:"You are here"});
 
-	}
-}*/
+    }).fail(function()
+    {
+    	alert("problemas");
+
+    });
+ }
+
+
+ $("#post-opinion").click(function (e)
+ {
+ 	e.preventDefault();
+ 	var newOpin=new Object();
+ 	    newOpin.id=$("#InputID").val();
+ 	    console.log(newOpin.id);
+ 	    newOpin.username=$("#InputUsername").val();
+ 	    console.log(newOpin.username);
+ 	    newOpin.content=$("#Comment-Content").val();
+ 	    console.log(newOpin.content);
+ 	    newOpin.price=$("#InputPrice").val();
+ 	    console.log(newOpin.price);
+
+ 	    postOpi(newOpin);
+
+ });
+
+
+
+
 
 
 function initialize() 
 {
   mapholder=document.getElementById('mapholder')
-	mapholder.style.height='500px';
-	mapholder.style.width='350px';
+	mapholder.style.height='600px';
+	mapholder.style.width='600px';
 
 	var myOptions=
 	{
@@ -288,35 +279,6 @@ function initialize()
 
 	var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
 }
-
-
-
-
-
-/*function createPosicion(posicion)
-{
-	var url=API_BASE_URL+'/posicion';
-	var data=JSON.stringify(posicion);
-
-	$("#posicion_result").text('');
-
-	$.ajax
-	({
-
-		url:url,
-		type:'POST',
-		contentType: "application/vnd.Car_api.posicion+json",
-		crossDomain:true,
-		dataType:'json',
-		data:data,
-	}).done(function(data,status,jqxhr)
-	{
-		$('<div class="alert alert-success"> <strong>Ok!</strong> Posicion enviado</div>').appendTo($("#posicion_result"));	
-	}).fail(function()
-	{
-		$('<div class="alert alert-danger"> <strong>Oh!</strong> Ha occurido un error</div>').appendTo($("#posicion_result"));	
-	});
-}*/
 
 
 
@@ -358,9 +320,9 @@ function getLast(name)
 
 window.document.getElementById('panelholder').addEventListener('load',getPosicions);
 
- function getPosicions(name)
+ function getPosicions(usernameCookie)
  {
- 	var url=API_BASE_URL+'/posicion?username='+name+'&'+'pag=1';
+ 	var url=API_BASE_URL+'/posicion?username='+usernameCookie+'&'+'pag=1';
  	//console.log(url);
 
  	$.ajax
@@ -468,7 +430,8 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
 
  function getopinions()
  {
- 	var url=API_BASE_URL+'/opinion?username='+name;
+ 	$("#message-text2").text('');
+ 	var url=API_BASE_URL+'/opinion?username='+usernameCookie;
  	$.ajax
  	({
  		url:url,
@@ -489,13 +452,13 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
  			//console.log(value);
  			//console.log("El valor de value posiciones"+value.posiciones)
 
-    	$('<h4> Content:'+ value.content+'    '+'<a href="#comments-area"><i class="fa fa-pencil-square-o"></i></a>'+'</h4>').appendTo($('#panel-opinion'));
-    	$('<p>').appendTo($('#panel-opinion'));
-    	$('<strong> Fecha:'+value.fecha+'</strong></br>').appendTo($('#panel-opinion'));
-    	$('<strong> Idopinion:'+value.idopinion+'</strong></br>').appendTo($('#panel-opinion'));
-    	$('<strong> Idposicion:'+value.idposicion+'</strong><br>').appendTo($('#panel-opinion'));
-    	$('</p>').appendTo($('#panel-opinion'));
-    	$('<li class="divider"></li>').appendTo($('#panel-opinion'));
+    	$('<h4> Content:'+ value.content+'    '+'<a href="#comments-area"><i class="fa fa-pencil-square-o" data-dismiss="modal"></i></a>'+'</h4>').appendTo($('#message-text1'));
+    	$('<p>').appendTo($('#message-text1'));
+    	$('<strong> Fecha:'+value.fecha+'</strong></br>').appendTo($('#message-text1'));
+    	$('<strong> Idopinion:'+value.idopinion+'</strong></br>').appendTo($('#message-text1'));
+    	$('<strong> Idposicion:'+value.idposicion+'</strong><br>').appendTo($('#message-text1'));
+    	$('</p>').appendTo($('#message-text1'));
+    	$('<li class="divider"></li>').appendTo($('#message-text1'));
  		});
 
         //latlon=new google.maps.LatLng(lat,lon)
@@ -503,7 +466,7 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
 
  	}).fail(function()
  	{
- 		$('<div class="alert alert-danger"> <strong>Oh!</strong> Ha occurido un error</div>').appendTo($("#posicion_result"));
+ 		$('<div class="alert alert-danger"> <strong>Oh!</strong> Ha occurido un error</div>').appendTo($("#message-text"));
 
  	});
  }
@@ -515,6 +478,8 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
 
  	$.ajax
  	({
+ 		
+		headers: { 'Authorization': "Basic "+ btoa(usernameCookie+':'+userpassCookie)},
  		url:url,
  		type : 'PUT',
  		contentType: "application/vnd.Car.api.opinion+json",
@@ -533,6 +498,31 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
   	{
 		alert("Ha ocurrido un error");
 	});
+
+ }
+
+ function postOpi(opi)
+ {
+ 	var url=API_BASE_URL+'/opinion';
+ 	var data=JSON.stringify(opi);
+ 	$.ajax
+	({
+		headers: { 'Authorization': "Basic "+ btoa(usernameCookie+':'+userpassCookie)},
+		url : url,
+		type : 'POST',
+		contentType: "application/vnd.Car.api.opinion+json",
+		crossDomain : true,
+		dataType : 'json',
+		data : data,
+	}).done(function(data, status, jqxhr) 
+	{
+		alert("Datos actualizado");
+	}).fail(function()
+	{
+	    alert("Ha ocurrido un error");	
+	});
+
+
 
  }
 

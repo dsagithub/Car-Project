@@ -109,7 +109,7 @@
 			<web-resource-name>Opiniones</web-resource-name>
 			<url-pattern>/opinion/*</url-pattern>
 			<http-method>POST</http-method>
-			<http-method>PUT</http-method>		
+			<http-method>PUT</http-method>			
 			<http-method>DELETE</http-method>
 		</web-resource-collection>
 		<auth-constraint>
