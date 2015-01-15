@@ -75,5 +75,71 @@
 		<!-- CORS Filter mapping -->
 		<filter-name>CORS</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping> 
+	</filter-mapping>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<!-- <realm-name>westerios</realm-name> -->
+	</login-config>
+	<security-role>
+		<role-name>registered</role-name>
+	</security-role>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>CarRootAPI</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Posicions</web-resource-name>
+			<url-pattern>/posicion/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>		
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Opiniones</web-resource-name>
+			<url-pattern>/opinion/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>		
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Favoritos</web-resource-name>
+			<url-pattern>/favorito/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>		
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+		<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>User</web-resource-name>
+			<url-pattern>/users/*</url-pattern>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>		
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>registered</role-name>
+		</auth-constraint>
+	</security-constraint>
 </web-app>

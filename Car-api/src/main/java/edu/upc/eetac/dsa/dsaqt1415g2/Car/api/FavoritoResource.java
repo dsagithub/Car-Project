@@ -105,7 +105,7 @@ public class FavoritoResource
 		try {
 			stmt = conn.prepareStatement(INSERT_FAVORITO_QUERY,Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, favorito.getIdposicion());
-			stmt.setString(2, favorito.getUsername());
+			stmt.setString(2, security.getUserPrincipal().getName());
 			stmt.setString(3, favorito.getDescripcion());
 			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
@@ -198,7 +198,7 @@ public class FavoritoResource
 	@Path("/{idfavorito}")
 	public void deleteFavorito(@PathParam("idfavorito") String idfavorito)
 	{
-		//validateUser(idfavorito);
+		validateUser(idfavorito);
 		Connection conn=null;
 		try
 		{
@@ -248,7 +248,7 @@ public class FavoritoResource
 	@Produces(MediaType.CAR_API_FAVORITO)
 	public Favorito updateFavorito(@PathParam("idfavorito") String idfavorito, Favorito favorito)
 	{
-		//validateUser(idfavorito);
+		validateUser(idfavorito);
 		Connection conn =null;
 		try
 		{
