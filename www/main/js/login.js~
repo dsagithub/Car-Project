@@ -1,0 +1,110 @@
+var API_BASE_URL="http://localhost:8000/Car-api";
+
+
+$("#login").click(function(e) {
+	e.preventDefault();
+	if($("#username_id").val() == "" || $("#password_id").val() == "")
+	{
+		if($("#username_id").val() == "")
+			{
+				document.getElementById('username_id').style.background='#F6B5B5';
+				$('#username_id').attr('placeholder','RELLENE EL CAMPO');
+			}
+		if($("#password_id").val() == "")
+			{
+				document.getElementById('password_id').style.background='#F6B5B5';
+				$('#password_id').attr('placeholder','RELLENE EL CAMPO');
+			}
+		
+	}
+	else{
+	var user = new Object();
+	user.username = $("#username_id").val();
+	user.password = $("#password_id").val();
+	getAutentificacion(user);
+	}
+});
+
+function getAutentificacion(user){
+
+	var url = API_BASE_URL + '/login';
+	var data = JSON.stringify(user);
+
+		$.ajax({
+		url : url,
+		type : 'POST',
+		crossDomain : true,
+		dataType : 'json',
+		data : data,
+	}).done(function(data, status, jqxhr) {
+		$('<div class="alert alert-success"> <strong>Ok!</strong> Repository Created</div>').appendTo			($("#create_result"));				
+  	}).fail(function() {
+		$('<div class="alert alert-danger"> <strong>Oh!</strong> Error </div>').appendTo($("#create_result"));
+	});
+}
+
+
+$("#crear_button_id").click(function(e) {
+	e.preventDefault();
+	if( $("#password_nuevo_id").val() == "" || $("#password_nuevo_id2").val() == "" || $("#email_id").val() == "" $("#email_id2").val() == "" || $("#username_nuevo_id").val() == "")
+	{
+		if($("#password_nuevo_id").val() == "")
+			{
+				document.getElementById('password_nuevo_id').style.background='#F6B5B5';
+				$('#password_nuevo_id').attr('placeholder','RELLENE EL CAMPO');
+			}
+		if($("#password_nuevo_id2").val() == "")
+			{
+				document.getElementById('password_nuevo_id2').style.background='#F6B5B5';
+				$('#password_nuevo_id2').attr('placeholder','RELLENE EL CAMPO');
+			}
+		if($("#email_id").val() == "")
+			{
+				document.getElementById('email_id').style.background='#F6B5B5';
+				$('#email_id').attr('placeholder','RELLENE EL CAMPO');
+			}
+		if($("#email_id2").val() == "")
+			{
+				document.getElementById('email_id2').style.background='#F6B5B5';
+				$('#email_id2').attr('placeholder','RELLENE EL CAMPO');
+			}
+		if($("#username_nuevo_id").val() == "")
+			{
+				document.getElementById('username_nuevo_id').style.background='#F6B5B5';
+				$('#username_nuevo_id').attr('placeholder','RELLENE EL CAMPO');
+			}
+	}
+	else{
+	if( $("#password_nuevo_id").val() == $("#password_nuevo_id2").val() && $("#email_id").val() == $("#email_id2").val() )
+	    {
+			var user1 = new Object();
+			user1.username =  $("#username_nuevo_id").val();
+			user1.password = $("#password_nuevo_id").val();
+			user1.mail = $("#email_id").val();			
+			CrearCuenta(user);		
+	    }
+	     else{
+			alert("Los campos no coinciden");
+	         }
+	}
+});
+
+
+function CrearCuenta(user){
+	var url = API_BASE_URL + '/users';
+	var data = JSON.stringify(user);
+	$("#create_result").text('');
+	$.ajax({
+		url : url,
+		type : 'POST',
+		contentType: "application/vnd.Car_api.user+json",
+		crossDomain : true,
+		dataType : 'json',
+		data : data,
+	}).done(function(data, status, jqxhr) {
+		$('<div class="alert alert-success"> <strong>Ok!</strong> Usuario Creado</div>').appendTo($("#create_result"));				
+  	}).fail(function() {
+		$('<div class="alert alert-danger"> <strong>Oh!</strong> Error </div>').appendTo($("#create_result"));
+	});
+}
+
