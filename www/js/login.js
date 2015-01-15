@@ -45,10 +45,10 @@ function getuserpass(login)
 				alert("Usuario y/o contraseña erróneo. Por favor intentelo de nuevo.");		
 				}
 				else{
-					document.cookie = "user=" + $("#username_id").val();
+					document.cookie = "username=" + $("#username_id").val();
 					document.cookie = "userpass=" + $("#password_id").val();
 					console.log(inf.loginSuccessful);
-					window.location = "main/main.html"
+					window.location = "main.html"
 					}
 
   	}).fail(function() {

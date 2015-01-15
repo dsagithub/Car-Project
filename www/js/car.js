@@ -1,8 +1,36 @@
 var API_BASE_URL="http://localhost:8000/Car-api";
-var name ="yifei";
 var num=1;
 var element;
 var resultado=document.getElementById("result");
+
+var usernameCookie = getCookie("username");
+var userpassCookie = getCookie("userpass");
+
+console.log("nombre:"+usernameCookie+"password"+userpassCookie);
+$.ajaxSetup
+({
+	headers: {'Authorization':"Basic"+ btoa(usernameCookie+':'+userpassCookie)}
+});
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+} 
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+
 
 
 /*$("#posicion").click(function(e)
@@ -20,7 +48,7 @@ var resultado=document.getElementById("result");
 $("#panelholder").click(function (e)
 {
 	e.preventDefault();
-	getPosicions(name);
+	getPosicions(usernameCookie);
 });
 
 
@@ -43,7 +71,7 @@ $("#panelholder").click(function (e)
 $("#get_last").click(function (e)
 {
 	e.preventDefault();
-	getLast(name);
+	getLast(usernameCookie);
 });
 
 $("#info-posicion1").click(function (e)
@@ -183,9 +211,15 @@ $("#info-posicion5").click(function (e)
  	e.preventDefault();
  	var newOpin=new Object();
  	    newOpin.id=$("#InputID").val();
+ 	    console.log(newOpin.id);
  	    newOpin.username=$("#InputUsername").val();
+ 	    console.log(newOpin.username);
  	    newOpin.content=$("#Comment-Content").val();
+ 	    console.log(newOpin.content);
  	    newOpin.price=$("#InputPrice").val();
+ 	    console.log(newOpin.price);
+
+ 	    postOpi(newOpin);
 
  });
 
@@ -377,9 +411,9 @@ function getLast(name)
 
 window.document.getElementById('panelholder').addEventListener('load',getPosicions);
 
- function getPosicions(name)
+ function getPosicions(usernameCookie)
  {
- 	var url=API_BASE_URL+'/posicion?username='+name+'&'+'pag=1';
+ 	var url=API_BASE_URL+'/posicion?username='+usernameCookie+'&'+'pag=1';
  	//console.log(url);
 
  	$.ajax
@@ -487,7 +521,7 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
 
  function getopinions()
  {
- 	var url=API_BASE_URL+'/opinion?username='+name;
+ 	var url=API_BASE_URL+'/opinion?username='+usernameCookie;
  	$.ajax
  	({
  		url:url,
@@ -534,6 +568,8 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
 
  	$.ajax
  	({
+ 		
+		headers: { 'Authorization': "Basic "+ btoa(usernameCookie+':'+userpassCookie)},
  		url:url,
  		type : 'PUT',
  		contentType: "application/vnd.Car.api.opinion+json",
@@ -552,6 +588,31 @@ window.document.getElementById('panelholder').addEventListener('load',getPosicio
   	{
 		alert("Ha ocurrido un error");
 	});
+
+ }
+
+ function postOpi(opi)
+ {
+ 	var url=API_BASE_URL+'/opinion';
+ 	var data=JSON.stringify(opi);
+ 	$.ajax
+	({
+		headers: { 'Authorization': "Basic "+ btoa(usernameCookie+':'+userpassCookie)},
+		url : url,
+		type : 'POST',
+		contentType: "application/vnd.Car.api.opinion+json",
+		crossDomain : true,
+		dataType : 'json',
+		data : data,
+	}).done(function(data, status, jqxhr) 
+	{
+		alert("Datos actualizado");
+	}).fail(function()
+	{
+	    alert("Ha ocurrido un error");	
+	});
+
+
 
  }
 
